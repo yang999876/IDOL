@@ -58,11 +58,9 @@ We introduce **HuGe100K**, a large-scale multi-view human dataset, supporting 3D
 
 ### ▶ **Watch the Demo Video**
 <p align="center">
-  <video width="85%" controls loop muted>
-    <source src="./asset/videos/dataset.mp4" type="video/mp4">
-    Your browser does not support the video tag.
-  </video>
+  <img src="./asset/videos/dataset.gif" alt="Dataset GIF" width="85%">
 </p>
+
 
 ### **Access the Dataset** 🚀  
 

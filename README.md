@@ -75,11 +75,12 @@ To access the **HuGe100K Dataset**, please submit your application using the lin
 If you find our work helpful, please cite us using the following BibTeX:
 
 ```bibtex
-@inproceedings{zhuang2024idol,
-  title={IDOL: Instant Photorealistic 3D Human Creation from a Single Image},
-  author={Zhuang, Yiyu and Lv, Jiaxi and Wen, Hao and Shuai, Qing and Zeng, Ailing and Zhu, Hao and Chen, Shifeng and Yang, Yujiu and Cao, Xun and Liu, Wei},
-  booktitle={arXiv},
-  year={2024}
+@article{zhuang2024idolinstant,                
+  title={IDOL: Instant Photorealistic 3D Human Creation from a Single Image}, 
+  author={Yiyu Zhuang and Jiaxi Lv and Hao Wen and Qing Shuai and Ailing Zeng and Hao Zhu and Shifeng Chen and Yujiu Yang and Xun Cao and Wei Liu},
+  journal={arXiv preprint arXiv:2412.14963},
+  year={2024},
+  url={https://arxiv.org/abs/2412.14963}, 
 }
 ```
 

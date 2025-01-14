@@ -28,6 +28,11 @@ In summary, this project introduces:
 
 
 ---
+## **News** 📰
+
+- **2023-12-18**: Paper is now available on arXiv.
+- **2024-01-02**: Demo 100-sample dataset is now available for access.
+
 ## **Project Status** 🚧  
 
 We are actively working on releasing the following resources:  

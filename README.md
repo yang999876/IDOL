@@ -30,8 +30,8 @@ In summary, this project introduces:
 ---
 ## **News** 📰
 
-- **2023-12-18**: Paper is now available on arXiv.
-- **2024-01-02**: Demo 100-sample dataset is now available for access.
+- **2024-12-18**: Paper is now available on arXiv.
+- **2025-01-02**: The demo dataset containing 100 samples is now available for access. The remaining dataset is currently undergoing further cleaning and review.
 
 ## **Project Status** 🚧  
 
@@ -39,7 +39,7 @@ We are actively working on releasing the following resources:
 
 | Resource                    | Status              | Expected Release Date      |
 |-----------------------------|---------------------|----------------------------|
-| **Dataset Demo**            | ✅ Available        | **Now Live! (12.18)**      |
+| **Dataset Demo**            | ✅ Available        | **Now Live! (2025.01.02)**      |
 | **Online Demo**             | 🚧 In Progress      | **Before 01 March 2025**   |
 | **Code**                    | 🚧 In Progress      | **Before 01 March 2025**   |
 | **Dataset Access**          | 🚧 Coming Soon      | **Before 01 March 2025**   |

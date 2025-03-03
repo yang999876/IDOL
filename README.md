@@ -32,6 +32,7 @@ In summary, this project introduces:
 
 - **2024-12-18**: Paper is now available on arXiv.
 - **2025-01-02**: The demo dataset containing 100 samples is now available for access. The remaining dataset is currently undergoing further cleaning and review.
+- **2025-01-02**:  🎉 We have released the inference code! Check out the [Code Release](#code-release) section for details.
 
 ## **Project Status** 🚧  
 
@@ -40,14 +41,42 @@ We are actively working on releasing the following resources:
 | Resource                    | Status              | Expected Release Date      |
 |-----------------------------|---------------------|----------------------------|
 | **Dataset Demo**            | ✅ Available        | **Now Live! (2025.01.02)**      |
-| **Online Demo**             | 🚧 In Progress      | **Before 01 March 2025**   |
-| **Code**                    | 🚧 In Progress      | **Before 01 March 2025**   |
-| **Dataset Access**          | 🚧 Coming Soon      | **Before 01 March 2025**   |
+| **Inference Code**             | ✅ Available        | **Now Live! (2025.03.01)**   |
+| **Online Demo**             | 🚧 In Progress      | **Before April 2025**   |
+| **Training Code**                    | 🚧 In Progress      | **Before April 2025**   |
+| **Full Dataset Access**          | 🚧 Coming Soon      | **Before April 2025**   |
 
 Stay tuned as we update this section with new releases! 🚀  
 
 
----
+
+## **Code Release** 💻
+
+### Installation & Environment Setup
+
+Please refer to [env/README.md](env/README.md) for detailed environment setup instructions.
+
+### Quick Start
+Run demo with different modes:
+```bash
+# Reconstruct the input image
+python run_demo.py --render_mode reconstruct
+
+# Generate novel poses (animation)
+python run_demo.py --render_mode novel_pose
+
+# Generate 360-degree view
+python run_demo.py --render_mode novel_pose_A
+```
+
+<!-- 
+### Training
+
+```bash
+python train.py --config configs/default.yaml
+``` -->
+
+
 
 ## **Key Links** 🌐
 
@@ -89,6 +118,8 @@ If you find our work helpful, please cite us using the following BibTeX:
 }
 ```
 
+
+
 ## **License** 
 
 This project is licensed under the **Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International License (CC BY-NC-SA 4.0)**.
@@ -98,3 +129,14 @@ This project is licensed under the **Creative Commons Attribution-NonCommercial-
 - **ShareAlike**: Modified versions must also be shared under the same license.
 
 For more information, see the full license [here](https://creativecommons.org/licenses/by-nc-sa/4.0/).
+
+## 📚 Acknowledgments
+
+This project is majorly built upon several excellent open-source projects:
+
+- [E3Gen](https://github.com/olivia23333/E3Gen): Efficient, Expressive and Editable Avatars Generation
+- [SAPIENS](https://github.com/facebookresearch/sapiens): High-resolution visual models for human-centric tasks
+- [GeoLRM](https://github.com/alibaba-yuanjing-aigclab/GeoLRM): Large Reconstruction Model for High-Quality 3D Generation
+- [3D Gaussian Splatting](https://github.com/graphdeco-inria/gaussian-splatting): Real-Time 3DGS Rendering
+
+We thank all the authors for their contributions to the open-source community.

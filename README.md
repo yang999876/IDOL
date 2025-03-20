@@ -3,7 +3,7 @@
 [![Website](https://img.shields.io/badge/Project-Website-0073e6)](https://yiyuzhuang.github.io/IDOL/)
 [![Paper](https://img.shields.io/badge/arXiv-PDF-b31b1b)](https://arxiv.org/pdf/2412.14963)
 [![Live Demo](https://img.shields.io/badge/Live-Demo-34C759)](https://yiyuzhuang.github.io/IDOL/)
-[![License](https://img.shields.io/badge/License-CC%20BY--NC--SA%204.0-lightgrey)](https://creativecommons.org/licenses/by-nc-sa/4.0/)
+[![License](https://img.shields.io/badge/License-MIT-blue.svg)](https://opensource.org/licenses/MIT)
 
 
 ---
@@ -32,7 +32,9 @@ In summary, this project introduces:
 
 - **2024-12-18**: Paper is now available on arXiv.
 - **2025-01-02**: The demo dataset containing 100 samples is now available for access. The remaining dataset is currently undergoing further cleaning and review.
-- **2025-01-02**:  🎉 We have released the inference code! Check out the [Code Release](#code-release) section for details.
+- **2025-03-01**: 🎉 Paper accepted by CVPR 2025.
+- **2025-03-01**:  🎉 We have released the inference code! Check out the [Code Release](#code-release) section for details.
+
 
 ## **Project Status** 🚧  
 
@@ -122,13 +124,23 @@ If you find our work helpful, please cite us using the following BibTeX:
 
 ## **License** 
 
-This project is licensed under the **Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International License (CC BY-NC-SA 4.0)**.
+This project is licensed under the **MIT License**.
 
-- **NonCommercial**: You may not use the material for commercial purposes without explicit permission.
-- **Attribution**: Please credit the authors appropriately.
-- **ShareAlike**: Modified versions must also be shared under the same license.
+- **Permissions**: This license grants permission to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the software.
+- **Condition**: The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
+- **Disclaimer**: The software is provided "as is", without warranty of any kind.
 
-For more information, see the full license [here](https://creativecommons.org/licenses/by-nc-sa/4.0/).
+For more information, see the full license [here](https://opensource.org/licenses/MIT).
+
+## **Support Our Work** ⭐
+
+If you find our work useful for your research or applications:
+
+- Please ⭐ **star our repository** to help us reach more people
+- Consider **citing our paper** in your publications (see [Citation](#citation) section)
+- Share our project with others who might benefit from it
+
+Your support helps us continue developing open-source research projects like this one!
 
 ## 📚 Acknowledgments
 

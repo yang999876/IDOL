@@ -28,7 +28,7 @@ In summary, this project introduces:
 
 
 ---
-## **News** 📰
+## 📰 **News** 
 
 - **2024-12-18**: Paper is now available on arXiv.
 - **2025-01-02**: The demo dataset containing 100 samples is now available for access. The remaining dataset is currently undergoing further cleaning and review.
@@ -36,7 +36,7 @@ In summary, this project introduces:
 - **2025-03-01**:  🎉 We have released the inference code! Check out the [Code Release](#code-release) section for details.
 
 
-## **Project Status** 🚧  
+## 🚧 **Project Status**   
 
 We are actively working on releasing the following resources:  
 
@@ -52,7 +52,7 @@ Stay tuned as we update this section with new releases! 🚀
 
 
 
-## **Code Release** 💻
+## 💻 **Code Release** 
 
 ### Installation & Environment Setup
 
@@ -80,7 +80,7 @@ python train.py --config configs/default.yaml
 
 
 
-## **Key Links** 🌐
+## 🌐 **Key Links** 
 
 - 📄 [**Paper on arXiv**](https://arxiv.org/pdf/2412.02684)  
 - 🌐 [**Project Website**](https://yiyuzhuang.github.io/IDOL/)  
@@ -88,7 +88,7 @@ python train.py --config configs/default.yaml
 
 ---
 
-## **Dataset Demo Access** 📊  
+## 📊 **Dataset Demo Access**   
 
 We introduce **HuGe100K**, a large-scale multi-view human dataset, supporting 3D human reconstruction and animation research.  
 
@@ -98,7 +98,7 @@ We introduce **HuGe100K**, a large-scale multi-view human dataset, supporting 3D
 </p>
 
 
-### **Access the Dataset** 🚀  
+### 🚀 **Access the Dataset**   
 
 To access the **HuGe100K Dataset**, please submit your application using the link below:  
 
@@ -106,7 +106,7 @@ To access the **HuGe100K Dataset**, please submit your application using the lin
 
 ---
 
-## **Citation** 📝  
+## 📝 **Citation**   
 
 If you find our work helpful, please cite us using the following BibTeX:
 
@@ -142,7 +142,7 @@ If you find our work useful for your research or applications:
 
 Your support helps us continue developing open-source research projects like this one!
 
-## 📚 Acknowledgments
+## 📚 **Acknowledgments**
 
 This project is majorly built upon several excellent open-source projects:
 

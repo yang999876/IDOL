@@ -40,7 +40,7 @@ class ForwardDeformer(torch.nn.Module):
             cond (dict): conditional input.
             tfs (tensor): bone transformation matrices. shape: [B, J, D+1, D+1] template -> posed
             tfs_inv (tensor): inverse bone transformation matrices. shape: [B, J, D+1, D+1] T-posed -> template
-            pts_query_lbs (tensor):  canonoical points in batch. shape: [B, N, D] , 仅仅用于获得Lbs weights
+            pts_query_lbs (tensor):  canonoical points in batch. shape: [B, N, D] , for Lbs weights
 
         Returns:
             xd (tensor): deformed point. shape: [B, N, D]

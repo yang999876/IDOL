@@ -210,10 +210,10 @@ def process_data_on_gpu(args, model, gpu_id, img_paths_list, smplx_ref_path_list
                 if render_mode in ['reconstruct', 'novel_pose_A'] and res_uv is not None:
                     pass 
                 else:
-                    res_uv = model.decoder._decode_feature(code_bt) # TODO!!! 解耦出uv的属性
-                    res_points = model.decoder._sample_feature(res_uv) # TODO!!! 采样
-                
-                res_def_points = model.decoder.deform_pcd(res_points, smpl_params[i:i+num_imgs_batch].to(code_bt.dtype), zeros_hands_off=True, value=0.02) # TODO!!! 驱动
+                    res_uv = model.decoder._decode_feature(code_bt) # Decouple UV attributes
+                    res_points = model.decoder._sample_feature(res_uv) # Sampling
+                # Animate
+                res_def_points = model.decoder.deform_pcd(res_points, smpl_params[i:i+num_imgs_batch].to(code_bt.dtype), zeros_hands_off=True, value=0.02) 
                 output = model.decoder.forward_render(res_def_points, cameras_bt.to(code_bt.dtype), num_imgs=1)
                 image = output["image"][:, 0].cpu().to(torch.float32)
 

@@ -22,8 +22,8 @@ import torchvision
 
 def ensure_dtype(input_tensor, target_dtype=torch.float32):
     """
-    确保张量的dtype是目标dtype。
-    如果不是，则转换。
+    Ensure tensor dtype matches target dtype.
+    If not, convert it.
     """
     if input_tensor.dtype != target_dtype:
         input_tensor = input_tensor.to(dtype=target_dtype)

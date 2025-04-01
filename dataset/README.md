@@ -58,10 +58,11 @@ For example:
 <div style="display: flex; align-items: center; justify-content: center; gap: 10px; flex-wrap: nowrap; width: 100%;">
   <img src="sample/videos/Kenya_female_fit_streetwear_50~60 years old_1501.jpg" alt="Kenya Female Fit Streetwear Image" style="max-width: 45%; width: 45%; height: auto;">
   <span style="font-weight: bold;"> =MVChamp=> </span>
-  <video autoplay loop muted playsinline style="max-width: 45%; width: 45%; height: auto;">
-    <source src="sample/videos/Kenya_female_fit_streetwear_50~60 years old_1501.mp4" type="video/mp4">
+  <!-- <video autoplay loop muted playsinline style="max-width: 45%; width: 45%; height: auto;">
+    <source src="sample/videos/Kenya_female_fit_streetwear_50~60 years old_1501.gif" type="video/mp4">
     Your browser does not support the video tag.
-  </video>
+  </video> -->
+    <img src="sample/videos/Kenya_female_fit_streetwear_50~60 years old_1501.gif" alt="Kenya Female Fit Streetwear Image" style="max-width: 45%; width: 45%; height: auto;">
 </div>
 
 
@@ -98,7 +99,7 @@ The script will generate:
 
 1. **Research Purposes Only**: This dataset is intended for academic and research purposes.
 2. **Citation Required**: If you use this dataset in your research, please cite our paper.
-3. **No Commercial Use**: Commercial use requires explicit permission.
+3. **No Commercial Use**: Commercial use is permitted only with explicit permission from us at yiyu.zhuang@smail.nju.edu.cn.
 4. **DeepFashion Derivatives**: See License and Attribution section below for special requirements.
 
 ## ⚖️ License and Attribution (DeepFashion)

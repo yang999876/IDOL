@@ -10,7 +10,7 @@ The dataset is organized with the following structure:
 ```
 HuGe100K/
 ├── flux_batch1/
-│   ├── images[0...23]/            #  different batch of images
+│   ├── images[0...9]/            #  different batch of images
 │   │   ├── videos/               # Folder for .mp4 and .jpg files
 │   │   │   ├── Algeria_female_average_high fashion_50~60 years old_844.jpg
 │   │   │   ├── Algeria_female_average_high fashion_50~60 years old_844.mp4

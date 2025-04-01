@@ -33,7 +33,8 @@ In summary, this project introduces:
 - **2024-12-18**: Paper is now available on arXiv.
 - **2025-01-02**: The demo dataset containing 100 samples is now available for access. The remaining dataset is currently undergoing further cleaning and review.
 - **2025-03-01**: 🎉 Paper accepted by CVPR 2025.
-- **2025-03-01**:  🎉 We have released the inference code! Check out the [Code Release](#code-release) section for details.
+- **2025-03-01**: 🎉 We have released the inference code! Check out the [Code Release](#code-release) section for details.
+- **2025-04-01**: 🔥 Full HuGe100K dataset is now available! See the [Dataset Access](#dataset-demo-access) section.
 
 
 ## 🚧 **Project Status**   
@@ -44,9 +45,9 @@ We are actively working on releasing the following resources:
 |-----------------------------|---------------------|----------------------------|
 | **Dataset Demo**            | ✅ Available        | **Now Live! (2025.01.02)**      |
 | **Inference Code**             | ✅ Available        | **Now Live! (2025.03.01)**   |
-| **Online Demo**             | 🚧 In Progress      | **Before April 2025**   |
+| **Full Dataset Access**     | ✅ Available        | **Now Live! (2025.04.01)**   |
+| **Online Demo**             | 🚧 In Progress      | **Before April  2025**   |
 | **Training Code**                    | 🚧 In Progress      | **Before April 2025**   |
-| **Full Dataset Access**          | 🚧 Coming Soon      | **Before April 2025**   |
 
 Stay tuned as we update this section with new releases! 🚀  
 
@@ -97,12 +98,25 @@ We introduce **HuGe100K**, a large-scale multi-view human dataset, supporting 3D
   <img src="./asset/videos/dataset.gif" alt="Dataset GIF" width="85%">
 </p>
 
+### 📋 **Dataset Documentation**
+For detailed information about the dataset format, structure, and usage guidelines, please refer to our [Dataset Documentation](dataset/README.md).
 
 ### 🚀 **Access the Dataset**   
 
-To access the **HuGe100K Dataset**, please submit your application using the link below:  
+<div align="center">
+  <p><strong>🔥 HuGe100K - The largest multi-view human dataset with 100,000+ subjects! 🔥</strong></p>
+  <p>High-resolution • Multi-view • Diverse poses • SMPL-X aligned</p>
+  
 
-👉 [**Dataset Access Application Form**](https://docs.google.com/forms/d/e/1FAIpQLSeVqrA9Mc_ODdcTZsB3GgrxgSNZk5deOzK4f64N72xlQFhvzQ/viewform?usp=dialog)  
+  <a href="https://docs.google.com/forms/d/e/1FAIpQLSeVqrA9Mc_ODdcTZsB3GgrxgSNZk5deOzK4f64N72xlQFhvzQ/viewform?usp=dialog">
+    <img src="https://img.shields.io/badge/Apply_for_Access-HuGe100K_Dataset-FF6B6B?style=for-the-badge&logo=googleforms&logoColor=white" alt="Apply for Access" width="300px">
+  </a>
+  <p><i>Complete the form to get access credentials and download links!</i></p>
+</div>
+
+### ⚖️ **License and Attribution**
+
+This dataset includes images derived from the **DeepFashion** dataset, originally provided by MMLAB at The Chinese University of Hong Kong. The use of DeepFashion images in this dataset has been explicitly authorized by the original authors solely for the purpose of creating and distributing this dataset. **Users must not further reproduce, distribute, sell, or commercially exploit any images or derived data originating from DeepFashion.** For any subsequent or separate use of the DeepFashion data, users must directly obtain authorization from MMLAB and comply with the original [DeepFashion License](https://mmlab.ie.cuhk.edu.hk/projects/DeepFashion.html).
 
 ---
 

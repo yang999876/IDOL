@@ -35,7 +35,7 @@ In summary, this project introduces:
 - **2025-03-01**: 🎉 Paper accepted by CVPR 2025.
 - **2025-03-01**: 🎉 We have released the inference code! Check out the [Code Release](#code-release) section for details.
 - **2025-04-01**: 🔥 Full HuGe100K dataset is now available! See the [Dataset Access](#dataset-demo-access) section.
-
+- **2025-04-05**: 🔥 Training code is now available! Check out the [Training Code](#training-code) section for details.
 
 ## 🚧 **Project Status**   
 
@@ -47,7 +47,7 @@ We are actively working on releasing the following resources:
 | **Inference Code**             | ✅ Available        | **Now Live! (2025.03.01)**   |
 | **Full Dataset Access**     | ✅ Available        | **Now Live! (2025.04.01)**   |
 | **Online Demo**             | 🚧 In Progress      | **Before April  2025**   |
-| **Training Code**                    | 🚧 In Progress      | **Before April 2025**   |
+| **Training Code**                    | ✅ Available     | **Now Live! (2025.04.05)**   |
 
 Stay tuned as we update this section with new releases! 🚀  
 
@@ -145,7 +145,8 @@ python run_demo.py --render_mode novel_pose_A
 
    Example for a 2-node setup:
    ```bash
-   # On master node (node 0):   um_nodes 2 --node_rank 0 --master_addr 192.168.1.100 --master_port 29500 --gpus 0,1,2,3,4,5,6,7
+   # On master node (node 0):   
+   python train.py --base configs/idol_v0.yaml --num_nodes 2 --node_rank 0 --master_addr 192.168.1.100 --master_port 29500 --gpus 0,1,2,3,4,5,6,7
 
    # On worker node (node 1):
    python train.py --base configs/idol_v0.yaml --num_nodes 2 --node_rank 1 --master_addr 192.168.1.100 --master_port 29500 --gpus 0,1,2,3,4,5,6,7

@@ -1,10 +1,18 @@
 import importlib
 
+import os
+
+from pytorch_lightning.utilities import rank_zero_only
+@rank_zero_only
+def main_print(*args):
+    print(*args)
+
+
 
 def count_params(model, verbose=False):
     total_params = sum(p.numel() for p in model.parameters())
     if verbose:
-        print(f"{model.__class__.__name__} has {total_params*1.e-6:.2f} M params.")
+        main_print(f"{model.__class__.__name__} has {total_params*1.e-6:.2f} M params.")
     return total_params
 
 
@@ -19,7 +27,7 @@ def instantiate_from_config(config):
 
 
 def get_obj_from_str(string, reload=False):
-    print(string)
+    main_print(string)
     module, cls = string.rsplit(".", 1)
     if reload:
         module_imp = importlib.import_module(module)

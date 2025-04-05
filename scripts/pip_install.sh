@@ -37,9 +37,10 @@ pip_packages=(
     "webdataset"
     "omegaconf"
     "rembg==2.0.57"
+    "tensorboard"
 )
 
-# Install pip packages in bulk
+Install pip packages in bulk
 for package in "${pip_packages[@]}"
 do
     pip install "$package"
@@ -55,6 +56,7 @@ git clone https://github.com/facebookresearch/pytorch3d.git
 cd pytorch3d
 git checkout v0.7.7  
 pip install -e .
+cd ..
 
 # Step 4: Install Simple-KNN
 git clone https://gitlab.inria.fr/bkerbl/simple-knn.git 

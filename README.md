@@ -72,13 +72,109 @@ python run_demo.py --render_mode novel_pose
 python run_demo.py --render_mode novel_pose_A
 ```
 
-<!-- 
 ### Training
 
-```bash
-python train.py --config configs/default.yaml
-``` -->
+#### Data Preparation
 
+1. **Dataset Structure**: First, prepare your dataset with the following structure:
+   ```
+   dataset_root/
+   ├── deepfashion/
+   │   ├── image1/
+   │   │   ├── videos/
+   │   │   │   ├── xxx.mp4
+   │   │   │   └── xxx.jpg
+   │   │   └── param/
+   │   │       └── xxx.npy
+   │   └── image2/
+   │       ├── videos/
+   │       └── param/
+   └── flux_batch1_5000/
+       ├── image1/
+       │   ├── videos/
+       │   └── param/
+       └── image2/
+           ├── videos/
+           └── param/
+   ```
+
+2. **Process Dataset**: Run the data processing script to generate cache files:
+   ```bash
+   # Process the dataset and generate cache files
+   # Please modify the dataset path and the sample number in the script
+   bash data_processing/process_datasets.sh
+   ```
+
+   This will generate cache files in the `processed_data` directory:
+   - `deepfashion_train_140.npy`
+   - `deepfashion_val_10.npy`
+   - `deepfashion_test_50.npy`
+   - `flux_batch1_5000_train_140.npy`
+   - `flux_batch1_5000_val_10.npy`
+   - `flux_batch1_5000_test_50.npy`
+
+3. **Configure Cache Path**: Update the cache path in your config file (e.g., `configs/idol_v0.yaml`):
+   ```yaml
+     params:
+       cache_path: [
+         ./processed_data/deepfashion_train_140.npy,
+         ./processed_data/flux_batch1_5000_train_140.npy
+       ]
+   ```
+
+#### Training
+
+1. **Single-Node Training**: For single-node multi-GPU training:
+   ```bash
+   python train.py \
+     --base configs/idol_v0.yaml \
+     --num_nodes 1 \
+     --gpus 0,1,2,3,4,5,6,7
+   ```
+
+2. **Multi-Node Training**: For multi-node training, specify additional parameters:
+   ```bash
+   python train.py \
+     --base configs/idol_v0.yaml \
+     --num_nodes <total_nodes> \
+     --node_rank <current_node_rank> \
+     --master_addr <master_node_ip> \
+     --master_port <port_number> \
+     --gpus 0,1,2,3,4,5,6,7
+   ```
+
+   Example for a 2-node setup:
+   ```bash
+   # On master node (node 0):   um_nodes 2 --node_rank 0 --master_addr 192.168.1.100 --master_port 29500 --gpus 0,1,2,3,4,5,6,7
+
+   # On worker node (node 1):
+   python train.py --base configs/idol_v0.yaml --num_nodes 2 --node_rank 1 --master_addr 192.168.1.100 --master_port 29500 --gpus 0,1,2,3,4,5,6,7
+   ```
+
+3. **Resume Training**: To resume training from a checkpoint:
+   ```bash
+   python train.py \
+     --base configs/idol_v0.yaml \
+     --resume PATH/TO/MODEL.ckpt \
+     --num_nodes 1 \
+     --gpus 0,1,2,3,4,5,6,7
+   ```
+
+4. **Test and Evaluate Metrics**:
+   ```bash
+   python train.py \
+     --base configs/idol_v0.yaml \                # Main config file (model)
+     --num_nodes 1 \
+     --gpus 0,1,2,3,4,5,6,7 \
+     --test_sd /path/to/model_checkpoint.ckpt \   # Path to the .ckpt model you want to test
+      --test_dataset ./configs/test_dataset.yaml   # (Optional) Dataset config used specifically for testing
+   ```
+
+## Notes
+- Make sure all GPUs have enough memory for the selected batch size
+- For multi-node training, ensure network connectivity between nodes
+- Monitor training progress using the logging system
+- Adjust learning rate and other hyperparameters in the config file as needed
 
 
 ## 🌐 **Key Links** 

@@ -20,6 +20,8 @@ from ..renderers import GRenderer, get_covariance, batch_rodrigues
 from lib.ops import TruncExp
 import torchvision
 
+from lib.utils.train_util import main_print
+
 def ensure_dtype(input_tensor, target_dtype=torch.float32):
     """
     Ensure tensor dtype matches target dtype.
@@ -104,7 +106,7 @@ class UVNDecoder_gender(nn.Module):
         base_cache_dir = 'work_dirs/cache'   
         if is_sub2:
             base_cache_dir = 'work_dirs/cache_sub2'
-            # print("!!!!!!!!!!!!!!!!!!! using the sub2 uv map !!!!!!!!!!!!!!!!!!!")
+            # main_print("!!!!!!!!!!!!!!!!!!! using the sub2 uv map !!!!!!!!!!!!!!!!!!!")
         if gender == 'neutral':
             select_uv = torch.as_tensor(np.load(base_cache_dir+'/init_uv_smplx_newNeutral.npy'))
             self.register_buffer('select_coord', select_uv.unsqueeze(0)*2.-1.)
@@ -119,7 +121,7 @@ class UVNDecoder_gender(nn.Module):
             init_pcd = torch.as_tensor(np.load(base_cache_dir+'/init_pcd_smplx_thu.npy'))
             self.register_buffer('init_pcd', init_pcd.unsqueeze(0), persistent=False) # 0.9-- -1
         self.num_init = self.init_pcd.shape[1]
-        print(f"!!!!!!!!!!!!!!!!!!! cur points number are {self.num_init} !!!!!!!!!!!!!!!!!!!")
+        main_print(f"!!!!!!!!!!!!!!!!!!! cur points number are {self.num_init} !!!!!!!!!!!!!!!!!!!")
 
         self.init_pcd = self.init_pcd 
 
@@ -324,7 +326,7 @@ class UVNDecoder_gender(nn.Module):
         rgbs_radius_rot = self.color_net(color_in)
         
         outputs = torch.cat([sigma, offset, rgbs_radius_rot], dim=1)
-        print(outputs.shape)
+        main_print(outputs.shape)
         sigma, offset, rgbs, radius, rot = outputs.split([1, 3, 3, 3, 3], dim=1)
         results = {'output':outputs, 'sigma': sigma, 'offset': offset, 'rgbs': rgbs, 'radius': radius, 'rot': rot}
 
@@ -459,8 +461,8 @@ class UVNDecoder_gender(nn.Module):
         xyzs, sigmas, rgbs, offsets, radius, tfs, rot = self.extract_pcd(code, smpl_params, init=init, zeros_hands_off=zeros_hands_off)
 
         if zeros_hands_off:
-            print('zeros_hands_off is on!')
-            print('zeros_hands_off is on!')
+            main_print('zeros_hands_off is on!')
+            main_print('zeros_hands_off is on!')
             offsets[self.hands_mask[...,None].repeat(num_scenes, 1, 3)] = 0
             rgbs[self.hands_mask[...,None].repeat(num_scenes, 1, 3)] = 0
             rgbs[self.hands_mask[...,None].repeat(num_scenes, 1, 3)] = 0
@@ -473,7 +475,7 @@ class UVNDecoder_gender(nn.Module):
         return_to_bfloat16 = True if xyzs.dtype==torch.bfloat16 else False ####### ============ translate the output to BF16 =================
         # return_to_bfloat16 = False # I don't want to trans it back to bf16
         if return_to_bfloat16:
-              print("changes the return_to_bfloat16")
+              main_print("changes the return_to_bfloat16")
               cameras, R_def_batch, xyzs, rgbs, sigmas, normals, radius = [ensure_dtype(item, torch.float32) for item in (cameras, R_def_batch, xyzs, rgbs, sigmas, normals, radius)]
         # with torch.amp.autocast(enabled=False, device_type='cuda'):
         if 1:
@@ -493,7 +495,7 @@ class UVNDecoder_gender(nn.Module):
         viz_masks = torch.cat(viz_masks, dim=0) if  (not self.training) and viz_masks else None
 
       
-        print("not trans the rendered results to float16")
+        main_print("not trans the rendered results to float16")
         if False:
             image = image.to(torch.bfloat16)
             scales = scales.to(torch.bfloat16)
@@ -544,8 +546,8 @@ class UVNDecoder_gender(nn.Module):
         xyzs, sigmas, rgbs, offsets, radius, tfs, rot =  code
         num_scenes = xyzs.shape[0]
         if zeros_hands_off:
-            print('zeros_hands_off is on!')
-            print('zeros_hands_off is on!')
+            main_print('zeros_hands_off is on!')
+            main_print('zeros_hands_off is on!')
             offsets[self.hands_mask[...,None].repeat(num_scenes, 1, 3)] = 0
             rgbs[self.hands_mask[...,None].repeat(num_scenes, 1, 3)] = 0
             rgbs[self.hands_mask[...,None].repeat(num_scenes, 1, 3)] = 0
@@ -559,7 +561,7 @@ class UVNDecoder_gender(nn.Module):
         return_to_bfloat16 = True if xyzs.dtype==torch.bfloat16 else False ####### ============ translate the output to BF16 =================
         # return_to_bfloat16 = False # I don't want to trans it back to bf16
         if return_to_bfloat16:
-            print("changes the return_to_bfloat16")
+            main_print("changes the return_to_bfloat16")
             cameras, R_def_batch, xyzs, rgbs, sigmas, normals, radius = [ensure_dtype(item, torch.float32) for item in (cameras, R_def_batch, xyzs, rgbs, sigmas, normals, radius)]
 
         if 1:
@@ -579,7 +581,7 @@ class UVNDecoder_gender(nn.Module):
         viz_masks = torch.cat(viz_masks, dim=0) if  (not self.training) and viz_masks else None
 
 
-        print("not trans the rendered results to float16")
+        main_print("not trans the rendered results to float16")
         if False:
             image = image.to(torch.bfloat16)
             scales = scales.to(torch.bfloat16)

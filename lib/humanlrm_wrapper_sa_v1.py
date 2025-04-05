@@ -22,7 +22,7 @@ import matplotlib.pyplot as plt
 from PIL import Image
 
 import numpy as np 
-
+from lib.utils.train_util import main_print
 
 from typing import List, Optional, Tuple, Union
 def get_1d_rotary_pos_embed(
@@ -168,7 +168,7 @@ class SapiensGS_SA_v1(pl.LightningModule):
         self.is_debug = is_debug
         ## ========== end part ========
 
-        ## ========== the based-nerf part ========
+     
         
         self.code_size = code_size
         if code_activation['type'] == 'tanh':
@@ -213,10 +213,6 @@ class SapiensGS_SA_v1(pl.LightningModule):
 
         # ========== config meaning ===========
         self.neck =  instantiate_from_config(neck)
-                
-        # for name, param in self.neck.named_parameters():
-        #     print(f"Layer: {name}, Size: {param.size()}, if_grad: {param.requires_grad}")
-
 
         self.ids_restore = torch.arange(0, self.num_patches).unsqueeze(0)
         self.freeze_decoder = freeze_decoder
@@ -351,7 +347,7 @@ class SapiensGS_SA_v1(pl.LightningModule):
             try:
                 code = self.forward_image_to_uv(inputs_img, is_training=self.training) #TODO check where the validation
             except Exception as e: # OOM
-                print(e)
+                main_print(e)
                 code = torch.zeros([num_scenes, 32, 256, 256]).to(inputs_img.dtype).to(inputs_img.device)
         else:
             code = self.forward_image_to_uv(inputs_img, is_training=self.training) #TODO check where the validation
@@ -422,7 +418,7 @@ class SapiensGS_SA_v1(pl.LightningModule):
             all_images = render_images_tmp*0.5 + target_images_tmp*0.5
             grid = make_grid(all_images, nrow=4, normalize=True, value_range=(0, 1))
             save_image(grid, "./debug.png")
-            print("saving into ./debug.png")
+            main_print("saving into ./debug.png")
            
 
         render_images = rearrange(render_images, 'b n h w c -> (b n) c h w') * 2.0 - 1.0
@@ -435,7 +431,7 @@ class SapiensGS_SA_v1(pl.LightningModule):
                 loss_weights_views = self.loss_weights_views.unsqueeze(0).to(render_images.device)
                 loss_weights_views = loss_weights_views.repeat(b,1).reshape(-1).unsqueeze(-1).unsqueeze(-1).unsqueeze(-1)
                 loss_mse = weighted_mse_loss(render_images, target_images, loss_weights_views)
-                print("weighted sum mse")
+                main_print("weighted sum mse")
             else:
                 loss_mse = F.mse_loss(render_images, target_images)
 
@@ -579,7 +575,7 @@ class SapiensGS_SA_v1(pl.LightningModule):
 
             grid = make_grid(all_images, nrow=1, normalize=True, value_range=(0, 1))
             save_image(grid, image_path)
-            print(f"Saved image to {image_path}")
+            main_print(f"Saved image to {image_path}")
 
             metrics = {}
             for key in self.validation_metrics[0].keys():
@@ -591,7 +587,7 @@ class SapiensGS_SA_v1(pl.LightningModule):
             image_path_nvPose = os.path.join(self.logdir, 'images_val', f'val_{self.global_step:07d}_nvPose.png')
             grid_nvPose = make_grid(all_images_pose, nrow=1, normalize=True, value_range=(0, 1))
             save_image(grid_nvPose, image_path_nvPose)
-            print(f"Saved image to {image_path_nvPose}")
+            main_print(f"Saved image to {image_path_nvPose}")
 
 
             # code for saving the code images
@@ -636,17 +632,17 @@ class SapiensGS_SA_v1(pl.LightningModule):
         metric_path = os.path.join(self.logdir, f'metrics.json')
         with open(metric_path, 'w') as f:
             json.dump(final_dict, f, indent=4)
-        print(f"Saved metrics to {metric_path}")
+        main_print(f"Saved metrics to {metric_path}")
         
         for key in metrics.keys():
             metrics[key] = torch.stack([m[key] for m in self.validation_metrics]).mean()
-        print(metrics)
+        main_print(metrics)
         
         self.validation_metrics.clear()
     
     def configure_optimizers(self):
         # define the optimizer and the scheduler for neck and decoder 
-        print("WARNING currently, we only support the single optimizer for both neck and decoder")
+        main_print("WARNING currently, we only support the single optimizer for both neck and decoder")
         
         learning_rate = self.neck_learning_rate
         params= [
@@ -655,7 +651,7 @@ class SapiensGS_SA_v1(pl.LightningModule):
         ]
         if hasattr(self, "encoder_learning_rate") and self.encoder_learning_rate>0:
             params.append({'params': self.encoder.parameters(), 'lr': self.encoder_learning_rate})
-            print("============add the encoder into the optimizer============")
+            main_print("============add the encoder into the optimizer============")
         optimizer = torch.optim.Adam(
             params
         )
@@ -665,10 +661,114 @@ class SapiensGS_SA_v1(pl.LightningModule):
             eta_min + (1 + math.cos(math.pi * (step - T_warmup) / (T_max - T_warmup))) * (1 - eta_min) * 0.5
         scheduler = torch.optim.lr_scheduler.LambdaLR(optimizer, lr_lambda)
         return  {'optimizer': optimizer, 'lr_scheduler': scheduler}
+    
+    def training_step(self, batch, batch_idx):
+        scheduler = self.lr_schedulers()
+        scheduler.step()
+        render_gt = None #? 
+        render_out = self.forward(batch)
+        loss, loss_dict = self.compute_loss(render_out)
 
+
+        self.log_dict(loss_dict, prog_bar=True, logger=True, on_step=True, on_epoch=True)
+       
+        if self.global_step % 200 == 0 and self.global_rank == 0:
+            self.new_on_before_optimizer_step() # log the norm
+        if self.global_step % 200 == 0 and self.global_rank == 0:
+            if self.if_include_video_ref_img and self.training:
+                render_images = torch.cat([ torch.ones_like(render_out['image'][:,0:1]), render_out['image']], dim=1)
+                target_images = torch.cat([ render_out['inputs_img'], render_out['target_imgs']], dim=1)
+
+            target_images = rearrange(
+                target_images, 'b n h w c -> b c h (n w)')
+            render_images = rearrange(
+                render_images, 'b n  h w c-> b c h (n w)')
+            
+
+            grid = torch.cat([
+                target_images, render_images, 0.5*render_images + 0.5*target_images,
+               
+            ], dim=-2)
+            grid = make_grid(grid, nrow=target_images.shape[0], normalize=True, value_range=(0, 1))
+           
+            image_path = os.path.join(self.logdir, 'images', f'train_{self.global_step:07d}.jpg')
+            save_image(grid, image_path)
+            main_print(f"Saved image to {image_path}")
+
+        return loss
+        
+    @torch.no_grad()
+    def test_step(self, batch, batch_idx):
+        # input_dict, render_gt = self.prepare_validation_batch_data(batch)
+        render_out = self.forward(batch)
+        render_gt = render_out['target_imgs']
+        render_img = render_out['image']
+        # Compute metrics
+        metrics = self.compute_metrics(render_out)
+        self.validation_metrics.append(metrics)
+        
+        # Save images
+        target_images = rearrange(
+            render_gt, 'b n h w c -> b c h (n w)')
+        render_images = rearrange(
+            render_img, 'b n h w c -> b c h (n w)')
+
+
+        grid = torch.cat([
+            target_images, render_images, 
+        ], dim=-2)
+        grid = make_grid(grid, nrow=target_images.shape[0], normalize=True, value_range=(0, 1))
+        # self.logger.log_image('train/render', [grid], step=self.global_step)
+        image_path = os.path.join(self.logdir, 'images_test', f'{batch_idx:07d}.png')
+        save_image(grid, image_path)
+
+        # code visualize
+        code = render_out['code']
+        self.decoder.visualize(code, batch['scene_name'],
+                        os.path.dirname(image_path), code_range=self.code_clip_range)
+
+        print(f"Saved image to {image_path}")
+    
+    def on_test_start(self):
+        if self.global_rank == 0:
+            os.makedirs(os.path.join(self.logdir, 'images_test'), exist_ok=True)
+    
+    def on_test_epoch_end(self):
+        metrics = {}
+        metrics_mean = {}
+        metrics_var = {}
+        for key in self.validation_metrics[0].keys():
+            tmp = torch.stack([m[key] for m in self.validation_metrics]).cpu().numpy()
+            metrics_mean[key] = tmp.mean()
+            metrics_var[key] = tmp.var()
+
+        # trans format into "mean±var" 
+        formatted_metrics = {}
+        for key in metrics_mean.keys():
+            formatted_metrics[key] = f"{metrics_mean[key]:.4f}±{metrics_var[key]:.4f}"
+
+        for key in self.validation_metrics[0].keys():
+            metrics[key] = torch.stack([m[key] for m in self.validation_metrics]).cpu().numpy().tolist()
+        
+
+        # saving into a dictionary
+        final_dict = {"average": formatted_metrics,
+                      'details': metrics}
+
+        metric_path = os.path.join(self.logdir, f'metrics.json')
+        with open(metric_path, 'w') as f:
+            json.dump(final_dict, f, indent=4)
+        print(f"Saved metrics to {metric_path}")
+        
+        for key in metrics.keys():
+            metrics[key] = torch.stack([m[key] for m in self.validation_metrics]).mean()
+        print(metrics)
+        
+        self.validation_metrics.clear()
+    
 def weighted_mse_loss(render_images, target_images, weights):
     squared_diff = (render_images - target_images) ** 2
-    print(squared_diff.shape, weights.shape)
+    main_print(squared_diff.shape, weights.shape)
     weighted_squared_diff = squared_diff * weights
     loss_mse_weighted = weighted_squared_diff.mean()
     return loss_mse_weighted

@@ -195,6 +195,7 @@ def process_data_on_gpu(args, model, gpu_id, img_paths_list, smplx_ref_path_list
         with torch.no_grad():
             # get latents
             code = model.forward_image_to_uv(sample, is_training=False, low_ram=args.low_ram)
+            torch.cuda.empty_cache()
 
         with torch.no_grad():
             output_list = []
